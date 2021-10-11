@@ -15,8 +15,9 @@ jobs:
           organization: OperationsYU
           username: ${{ github.event.issue.user.login }}
           token: ${{ secrets.GITHUB_TOKEN }}
-      if: steps.is_organization_member.outputs.result == true
-      - name: initial labeling
+
+      - name: add_label
+        if: steps.is_organization_member.outputs.result == true
         uses: andymckay/labeler@master
         with:
           add-labels: "contribution"
