@@ -1,5 +1,6 @@
 name: list-pr
-on: push
+
+on: [push, pull_request]
 
 jobs:
   list-pr:
@@ -10,9 +11,8 @@ jobs:
         id: list
         with:
           token: ${{secrets.ACCESS_TOKEN}}
-          hour: '24'
       - name: output
-        run: echo '${{ steps.list.outputs.pulls }}'
+        run: echo ${{ steps.list.outputs.pulls }}
         
       - name: Comment on PR
         uses: tiwanari/list-merged-pull-requests@master
