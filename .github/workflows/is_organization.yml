@@ -18,7 +18,7 @@ jobs:
           username: fish0607
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Comment
-        if: steps.is_organization_member.outputs.result == false
+        if: steps.is_organization_member.outputs.result == true
         uses: andymckay/labeler@master
         with:
           add-labels: "needs-triage, bug"
