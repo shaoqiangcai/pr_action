@@ -23,7 +23,7 @@ jobs:
           echo steps.is_organization_member.outputs.result
 
       - name: Add label
-        if: steps.is_organization_member.outputs.result == true
+        if: steps.is_organization_member.outputs.result == false
         uses: andymckay/labeler@master
         with:
           add-labels: "contribution"
