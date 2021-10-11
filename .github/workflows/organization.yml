@@ -1,0 +1,26 @@
+name: automation-labels
+
+on: push
+
+jobs:
+  automate-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check organization
+        id: is_organization_member
+        if: github.event.action == 'opened'
+        uses: OperationsYU/is-organization-member@master
+        with:
+          organization: OperationsYU
+          username: fish9167
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Echo username organization
+        run: |
+          echo ${{ github.event.pull_request.user.login }}
+          echo ${{ steps.is_organization_member.outputs.result }}
+
+      - name: Add contribution label
+        if: |
+          steps.is_organization_member.outputs.result == false
+
