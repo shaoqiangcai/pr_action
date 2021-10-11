@@ -1,0 +1,14 @@
+name: list-pr
+on: push
+
+jobs:
+  list-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on PR
+        uses: tiwanari/list-merged-pull-requests@master
+        with:
+          token: ${{ github.ACCESS_TOKEN }}
+
+      - name: List Pull Requests
+        uses: buildsville/list-pull-requests@v1
