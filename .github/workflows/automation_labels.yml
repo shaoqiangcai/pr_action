@@ -11,7 +11,7 @@ jobs:
       - name: Check organization
         id: is_organization_member
         if: github.event.action == 'opened'
-        uses: OperationsYU/is-organization-member@1.0.0
+        uses: OperationsYU/is-organization-member@master
         with:
           organization: OperationsYU
           username: ${{ github.event.pull_request.user.login }}
@@ -21,6 +21,12 @@ jobs:
         run: |
           echo ${{ github.event.pull_request.user.login }}
           echo ${{ steps.is_organization_member.outputs.result }}
+
+      - name: list pr
+        uses: codespell-project/sort-problem-matcher@v1
+
+      - name: List Open PRs
+        uses: chrisaddy/list-open-prs@0.1.0
 
       - name: Add contribution label
         if: |
