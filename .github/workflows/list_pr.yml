@@ -5,9 +5,16 @@ jobs:
   list-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: List Pull Requests
+      - name: listPullRequests
         uses: buildsville/list-pull-requests@v1
+        id: list
+        with:
+          token: ${{secrets.ACCESS_TOKEN}}
+          hour: '24'
+      - name: output
+        run: echo '${{ steps.list.outputs.pulls }}'
+        
       - name: Comment on PR
         uses: tiwanari/list-merged-pull-requests@master
         with:
-          token: ${{ github.ACCESS_TOKEN }}        
+          token: ${{ secrets.ACCESS_TOKEN }}        
