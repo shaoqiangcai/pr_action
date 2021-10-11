@@ -1,9 +1,7 @@
 name: Is Organization Member Example
-
-#on:
-#  issues:
-#    types: [opened, labeled]
-on: push
+on:
+  pull_request:
+    types: [opened]
 
 jobs:
   is_organization:
