@@ -1,9 +1,7 @@
 name: Is Organization Member Example
-
-#on:
-#  issues:
-#    types: [opened, labeled]
-on: push
+on:
+  pull_request:
+    types: [opened]
 
 jobs:
   is_organization:
@@ -22,4 +20,8 @@ jobs:
       - name: Create Comment
         if: |
           steps.is_organization_member.outputs.result == false
+          uses: andymckay/labeler@master
+            with:
+              add-labels: "needs-triage, bug"
+              #remove-labels: "in progress"
         run: echo User Does Not Belong to testorg
