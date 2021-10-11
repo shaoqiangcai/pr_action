@@ -20,10 +20,10 @@ jobs:
           echo ${{ steps.is_organization_member.outputs.result }}
 
       - name: Add contribution label
-        if: steps.is_organization_member.outputs.result == 'flase'
+        if: steps.is_organization_member.outputs.result == 'false'
         run: echo User Does Not Belong to Organization
         
       - name: Add contribution label
-        if: steps.is_organization_member.outputs.result
+        if: steps.is_organization_member.outputs.result == 'true'
         run: echo User Does Not Belong to Organization
 
