@@ -23,8 +23,8 @@ jobs:
           echo ${{ steps.is_organization_member.outputs.result }}
 
       - name: Add contribution label
-        if: |
-          steps.is_organization_member.outputs.result == false
+        #if: |
+        #  steps.is_organization_member.outputs.result == false
         uses: OperationsYU/labeler@master
         with:
           add-labels: "contribution"
