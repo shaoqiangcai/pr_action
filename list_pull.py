@@ -4,6 +4,7 @@ import json
 import time, datetime
 
 github_url = "https://github.com/cocos-creator/engine/pulls"
+github_url = "https://github.com/OperationsYU/pr_action/pulls"
 headers = {"Accept": "application/vnd.github.v3+json"}
 
 
