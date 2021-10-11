@@ -18,5 +18,5 @@ jobs:
 
       - name: run py
         run: |
-          python list_pr.py
+          python -u list_pull.py
      
