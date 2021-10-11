@@ -8,21 +8,23 @@ jobs:
   automate-labels:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if organization member
+      - name: Check organization
         id: is_organization_member
+        if: github.event.action == 'opened'
         uses: jamessingleton/is-organization-member@1.0.0
         with:
           organization: OperationsYU
           username: ${{ github.event.pull_request.user.login }}
           token: ${{ secrets.ACCESS_TOKEN }}
 
-      - name: Echo username
+      - name: Echo username organization
         run: |
           echo ${{ github.event.pull_request.user.login }}
           echo ${{ steps.is_organization_member.outputs.result }}
-      - name: Add label
+
+      - name: Add contribution label
         if: |
-          steps.is_organization_member.outputs.result == false
+          steps.is_organization_member.outputs.result == true
         uses: andymckay/labeler@master
         with:
           add-labels: "contribution"
