@@ -1,8 +1,8 @@
 name: automation-labels
 
-on:
-  pull_request:
-    types: [opened]
+on: pull_request_target
+#  pull_request:
+#    types: [opened]
 
 jobs:
   automate-labels:
