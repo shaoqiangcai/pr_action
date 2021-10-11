@@ -11,7 +11,7 @@ jobs:
       - name: Check organization
         id: is_organization_member
         if: github.event.action == 'opened'
-        uses: jamessingleton/is-organization-member@1.0.0
+        uses: OperationsYU/is-organization-member@1.0.0
         with:
           organization: OperationsYU
           username: ${{ github.event.pull_request.user.login }}
@@ -25,7 +25,7 @@ jobs:
       - name: Add contribution label
         if: |
           steps.is_organization_member.outputs.result == false
-        uses: andymckay/labeler@master
+        uses: OperationsYU/labeler@master
         with:
           add-labels: "contribution"
           run: echo User Does Not Belong to Organization
