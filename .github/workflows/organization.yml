@@ -16,11 +16,11 @@ jobs:
 
       - name: Echo username organization
         run: |
-          echo ${{ github.event.pull_request.user.login }}
+          echo ${{ github.event.push.user.login }}
           echo ${{ steps.is_organization_member.outputs.result }}
 
       - name: Add contribution label
-        if: steps.is_organization_member.outputs.result
+        if: steps.is_organization_member.outputs.result == "flase"
         run: echo User Does Not Belong to Organization
         
       - name: Add contribution label
