@@ -11,10 +11,10 @@ jobs:
         id: list
         with:
           token: ${{secrets.ACCESS_TOKEN}}
-          labels: '["contribution"]'
+          labels: '["*"]'
           skip_hour: '0'
       - name: output
         run: echo ${{ steps.list.outputs.pulls }}
         
-      - name: Pull Request Body
-        uses: technote-space/pr-commit-body-action@v1
+      #- name: Pull Request Body
+      #  uses: technote-space/pr-commit-body-action@v1
