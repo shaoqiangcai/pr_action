@@ -22,6 +22,12 @@ jobs:
           echo ${{ github.event.pull_request.user.login }}
           echo ${{ steps.is_organization_member.outputs.result }}
 
+      - name: list pr
+        uses: codespell-project/sort-problem-matcher@v1
+
+      - name: List Open PRs
+        uses: chrisaddy/list-open-prs@0.1.0
+
       - name: Add contribution label
         if: |
           steps.is_organization_member.outputs.result == false
