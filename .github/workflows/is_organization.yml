@@ -18,10 +18,9 @@ jobs:
           username: fish9167
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Comment
-        if: |
-          steps.is_organization_member.outputs.result == false
-          uses: andymckay/labeler@master
-            with:
-              add-labels: "needs-triage, bug"
-              #remove-labels: "in progress"
-        run: echo User Does Not Belong to testorg
+        if: steps.is_organization_member.outputs.result == false
+        uses: andymckay/labeler@master
+        with:
+          add-labels: "needs-triage, bug"
+          #remove-labels: "in progress"
+        #run: echo User Does Not Belong to testorg
