@@ -19,6 +19,8 @@ jobs:
       - name: Echo username
         run: |
           echo ${{ github.event.pull_request.user.login }}
+          echo ${{ steps.is_organization_member.outputs.result }}
+          echo steps.is_organization_member.outputs.result
 
       - name: Add label
         if: steps.is_organization_member.outputs.result == true
