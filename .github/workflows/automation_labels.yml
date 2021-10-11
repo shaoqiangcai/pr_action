@@ -15,7 +15,7 @@ jobs:
           organization: OperationsYU
           #username: ${{ github.event.pull_request.user.login }}
           username: 123456
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Echo username
         run: |
