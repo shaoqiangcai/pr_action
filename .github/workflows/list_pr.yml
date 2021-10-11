@@ -12,7 +12,7 @@ jobs:
         with:
           token: ${{secrets.ACCESS_TOKEN}}
           labels: '["contribution"]'
-          hour: '0'
+          skip_hour: '0'
       - name: output
         run: echo ${{ steps.list.outputs.pulls }}
         
