@@ -29,3 +29,9 @@ jobs:
         with:
           add-labels: "contribution"
           run: echo User Does Not Belong to Organization
+
+      - name: assignment
+        uses: OperationsYU/auto-assignment@v1
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          users: '["fish0607"]'
