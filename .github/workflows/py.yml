@@ -1,0 +1,22 @@
+name: list-pulls
+
+on: [push, pull_request]
+
+jobs:
+  list-pulls:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.7"
+
+      - name:  install
+        run: |
+          pip3 install requests
+
+      - name: run py
+        run: |
+          python list_pr.py
+     
