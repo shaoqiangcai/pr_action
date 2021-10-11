@@ -16,7 +16,5 @@ jobs:
       - name: output
         run: echo ${{ steps.list.outputs.pulls }}
         
-      - name: Comment on PR
-        uses: tiwanari/list-merged-pull-requests@master
-        with:
-          token: ${{ secrets.ACCESS_TOKEN }}        
+      - name: Pull Request Body
+        uses: technote-space/pr-commit-body-action@v1
