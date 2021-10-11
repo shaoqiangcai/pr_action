@@ -13,8 +13,7 @@ jobs:
         uses: jamessingleton/is-organization-member@1.0.0
         with:
           organization: OperationsYU
-          #username: ${{ github.event.pull_request.user.login }}
-          username: 123456
+          username: ${{ github.event.pull_request.user.login }}
           token: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Echo username
@@ -23,8 +22,8 @@ jobs:
           echo ${{ steps.is_organization_member.outputs.result }}
 
       - name: Add label
-        if: |
-          steps.is_organization_member.outputs.result == true
+        #if: |
+        #  steps.is_organization_member.outputs.result == true
         run: echo User Does Not Belong to testorg
         #uses: andymckay/labeler@master
         #with:
