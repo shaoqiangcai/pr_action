@@ -1,4 +1,4 @@
-name: automation-labels
+name: organization
 
 on: push
 
