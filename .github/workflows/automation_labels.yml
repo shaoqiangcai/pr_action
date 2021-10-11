@@ -23,7 +23,7 @@ jobs:
 
       - name: Add label
         if: |
-          steps.is_organization_member.outputs.result == false
+          steps.is_organization_member.outputs.result == true
         run: echo User Does Not Belong to testorg
         #uses: andymckay/labeler@master
         #with:
