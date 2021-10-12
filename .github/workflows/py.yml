@@ -14,7 +14,7 @@ jobs:
 
       - name:  install
         run: |
-          pip3 install requests PyGithub
+          pip3 install requests PyGithub cryptography pyOpenSSL certifi
 
       - name: run py
         run: |
