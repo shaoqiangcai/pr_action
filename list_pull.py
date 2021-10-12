@@ -3,7 +3,7 @@ import requests
 import os
 import json
 import time, datetime
-from githup import Github
+from github import Github
 
 github_url = "https://github.com/cocos-creator/engine/pulls"
 github_url = "https://github.com/OperationsYU/pr_action/pulls"
