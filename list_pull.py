@@ -3,6 +3,7 @@ import requests
 import os
 import json
 import time, datetime
+from githup import Github
 
 github_url = "https://github.com/cocos-creator/engine/pulls"
 github_url = "https://github.com/OperationsYU/pr_action/pulls"
@@ -22,12 +23,12 @@ except Exception as e:
 	print("URL(%s) 请求失败(%s)" % (github_url, e))
 '''
 
-token = os.getenv(secrets.ACCESS_TOKEN)
-g = Github(token)
-
+#token = os.getenv(secrets.ACCESS_TOKEN)
+#g = Github(token)
 # Github Enterprise with custom hostname
-g = Github(base_url="https://githup.com/api/v3", login_or_token="access_token")
-
+#g = Github(base_url="https://githup.com/api/v3", login_or_token=token)
+g = Github()
+g = Github(base_url="https://githup.com/api/v3")
 repo = g.get_repo('OperationsYU/pr_action')
 #get_pulls()参数不写的，就是获取所有open的pull_request.
 pull_requests = repo.get_pulls(state='open')
