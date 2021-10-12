@@ -14,11 +14,9 @@ jobs:
 
       - name:  install
         run: |
-          pip3 install requests githup
+          pip3 install requests PyGithub
 
       - name: run py
         run: |
           python -u list_pull.py
-      - name: run sh
-        run: |
-          curl -H "Accept: application/vnd.github.v3+json" https://github.com/cocos-creator/engine/pulls
+
