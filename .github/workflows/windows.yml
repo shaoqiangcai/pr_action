@@ -1,0 +1,13 @@
+name: windows
+
+on: [push, pull_request]
+
+jobs:
+  list-pr:
+    runs-on: windows-2016
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install deps
+      run: |
+        choco install --forcex86 vulkan-sdk
+        python -m pip install PyYAML Cheetah3    
