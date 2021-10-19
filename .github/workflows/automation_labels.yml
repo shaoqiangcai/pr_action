@@ -23,6 +23,7 @@ jobs:
         run: |
           echo ${{ github.event.pull_request.user.login }}
           echo ${{ steps.is_organization_member.outputs.result }}
+          sleep 10s
 
       - name: Add contribution label
         if: |
