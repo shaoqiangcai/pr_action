@@ -27,7 +27,7 @@ jobs:
 
       - name: Add contribution label
         if: |
-          steps.is_organization_member.outputs.result == false
+          ${{steps.is_organization_member.outputs.result}} == false
         uses: OperationsYU/labeler@master
         with:
           add-labels: "contribution"
@@ -35,7 +35,7 @@ jobs:
 
       - name: assignment
         if: |
-          steps.is_organization_member.outputs.result == true      
+          ${{steps.is_organization_member.outputs.result}} == true      
         uses: OperationsYU/auto-assignment@v1
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
