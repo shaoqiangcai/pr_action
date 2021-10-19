@@ -33,6 +33,8 @@ jobs:
           run: echo User Does Not Belong to Organization
 
       - name: assignment
+        if: |
+          steps.is_organization_member.outputs.result == true      
         uses: OperationsYU/auto-assignment@v1
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
