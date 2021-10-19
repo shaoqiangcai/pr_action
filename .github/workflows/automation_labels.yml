@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Check organization
         id: is_organization_member
-        uses: OperationsYU/is-organization-member@master
+        uses: OperationsYU/is-organization-member@1.0.0
         with:
           organization: OperationsYU
           username: ${{ github.event.pull_request.user.login }}
