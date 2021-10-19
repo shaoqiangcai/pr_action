@@ -19,11 +19,15 @@ jobs:
           echo ${{ github.event.push.user.login }}
           echo ${{ steps.is_organization_member.outputs.result }}
 
-      - name: Add contribution label
-        if: steps.is_organization_member.outputs.result == 'false'
-        run: echo User Does Not Belong to Organization
-        
-      - name: Add contribution label
-        if: steps.is_organization_member.outputs.result == 'true'
-        run: echo User Does Not Belong to Organization
+      - name: Check organization
+        id: is_organization_member2
+        uses: OperationsYU/is-organization-member@master
+        with:
+          organization: OperationsYU
+          username: fish0607
+          token: ${{ secrets.ACCESS_TOKEN }}
 
+      - name: Echo username organization
+        run: |
+          echo ${{ github.event.push.user.login }}
+          echo ${{ steps.is_organization_member2.outputs.result }}
