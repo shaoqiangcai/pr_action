@@ -24,8 +24,8 @@ jobs:
         with:
           org-name: OperationsYU
           file-path: 'members.json'
-          env:
-            GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Echo username organization
         run: |
