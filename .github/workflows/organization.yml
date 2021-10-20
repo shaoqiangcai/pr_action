@@ -19,7 +19,7 @@ jobs:
           echo ${{ github.event.push.user.login }}
           echo ${{ steps.is_organization_member.outputs.result }}
 
-      - name: Check organization
+      - name: Check organization2
         id: is_organization_member2
         uses: OperationsYU/is-organization-member@master
         with:
@@ -27,8 +27,7 @@ jobs:
           username: fish0607
           token: ${{ secrets.ACCESS_TOKEN }}
 
-      - name: Echo username organization
+      - name: Echo username organization2
         run: |
           echo ${{ github.event.push.user.login }}
           echo ${{ steps.is_organization_member2.outputs.result }}
-          
