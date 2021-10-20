@@ -6,6 +6,12 @@ jobs:
   organization-member:
     runs-on: ubuntu-latest
     steps:
+      - name: run curl
+        run: |
+          echo `curl -I -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members`
+          echo `curl -I -H "Authorization: ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members`
+        
+          
       - name: Check organization
         id: is_organization_member
         uses: actions/github-script@v5
