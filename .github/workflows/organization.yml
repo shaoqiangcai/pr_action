@@ -22,7 +22,7 @@ jobs:
         with:
           #github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
-            const response = await github.rest.orgs.checkMembershipForUser({
+            const response = await octokit.request('GET /orgs/{org}/members/{username}', {
               org: 'OperationsYU',
               usernmae: 'fish0607'
             })
