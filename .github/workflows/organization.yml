@@ -14,8 +14,12 @@ jobs:
           echo "======"          
           echo `curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish9167`
           echo "======"          
-          echo `curl -H "Authorization: ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish9167`          
-        
+          echo `curl -H "Authorization: ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish9167`
+          echo "======"          
+          echo `curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/public_members/fish9167`
+          echo "======"          
+          echo `curl -H "Authorization: ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/public_members/fish9167`
+ 
           
       - name: Check organization
         id: is_organization_member
