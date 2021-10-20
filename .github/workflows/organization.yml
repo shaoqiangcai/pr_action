@@ -12,9 +12,9 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const response = await github.rest.rest.orgs.checkMembershipForUser({
-              org: OperationsYU,
-              username: fish0607
+            const response = await github.rest.orgs.checkMembershipForUser({
+              org: 'OperationsYU',
+              username: 'fish0607'
             })
             return "Hello!"
             result-encoding: string
