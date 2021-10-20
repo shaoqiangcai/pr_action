@@ -22,7 +22,7 @@ jobs:
         with:
           #github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
-            const response = await octokit.rest.orgs.getMembershipForUser({
+            const response = await githup.octokit.rest.orgs.getMembershipForUser({
             'OperationsYU',
             'fish0607'
             })
