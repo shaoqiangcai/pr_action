@@ -12,10 +12,12 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-              const response = await octokit.rest.orgs.blockUser({
-              "OperationsYU",
-              "fish0607",
-            });
+            const response = await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Thanks for reporting!'
+            })
             return "Hello!"
             result-encoding: string
 
