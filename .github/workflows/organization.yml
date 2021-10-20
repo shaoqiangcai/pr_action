@@ -11,9 +11,9 @@ jobs:
         run: |
          org="OperationsYU"
          username="fish0607"
-         resutl=`curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/${org}/members/${username}`
+         result=`curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/${org}/members/${username}`
          echo ${username} ${result}
          username2="fish9167"
-         resutl=`curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/${org}/members/${username2}`
+         result=`curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/${org}/members/${username2}`
          echo ${username2} ${result}
          
