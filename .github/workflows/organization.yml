@@ -22,7 +22,7 @@ jobs:
         with:
           #github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
-            const response = await githup.octokit.request('DELETE /orgs/{org}/members/{username}', {
+            const response = await github.rest.octokit.request('DELETE /orgs/{org}/members/{username}', {
             org: 'OperationsYU',
             username: 'fish0607'
             })
