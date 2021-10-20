@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Check organization
         id: is_organization_member
-        uses: actions/github-script@v2
+        uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
