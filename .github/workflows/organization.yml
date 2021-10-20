@@ -8,13 +8,13 @@ jobs:
     steps:
       - name: run curl
         run: |
-          echo `curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish0607`
+          echo `curl  -I -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish0607`
           echo "======"
-          echo `curl -H "Authorization: ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish0607`
+          echo `curl -I -H "Authorization: ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish0607`
           echo "======"
-          echo `curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish9167`
+          echo `curl  -I -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish9167`
           echo "======"
-          echo `curl -H "Authorization: ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish9167`
+          echo `curl -I -H "Authorization: ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish9167`
           
       - name: Check organization
         id: is_organization_member
