@@ -17,8 +17,8 @@ jobs:
               usernmae: 'fish0607'
             })
             console.log(response)
-            return "Hello!"
-            result-encoding: string
+            #return "Hello!"
+            #result-encoding: string
 
       - name: echo result
         run:
