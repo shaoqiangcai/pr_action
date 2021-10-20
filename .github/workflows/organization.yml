@@ -20,11 +20,11 @@ jobs:
         id: is_organization_member
         uses: actions/github-script@v5
         with:
-          #github-token: ${{ secrets.ACCESS_TOKEN }}
+          github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
             const response = await githup.octokit.rest.orgs.getMembershipForUser({
             'OperationsYU',
-            'fish0607',
+            'fish0607'
             })
             console.log(response)
 
