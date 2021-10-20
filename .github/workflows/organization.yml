@@ -14,7 +14,7 @@ jobs:
           script: |
             const response = await github.rest.orgs.checkMembershipForUser({
               org: 'OperationsYU',
-              username: 'fish0607'
+              username:'fish0607'
             })
             console.log(response)
             return "Hello!"
