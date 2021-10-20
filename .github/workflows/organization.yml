@@ -8,8 +8,8 @@ jobs:
     steps:
       - name: run curl
         run: |
-          echo `curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members`
-          echo `curl -H "Authorization: ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members`
+          echo `curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish0607`
+          echo `curl -H "Authorization: ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish0607`
         
           
       - name: Check organization
