@@ -3,7 +3,7 @@ name: organization
 on: push
 
 jobs:
-  automate-labels:
+  organization-member:
     runs-on: ubuntu-latest
     steps:
       - name: Check organization
