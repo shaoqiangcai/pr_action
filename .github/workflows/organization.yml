@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Check organization
         id: is_organization_member
-        uses: OperationsYU/is-organization-member@master
+        uses: OperationsYU/is-organization-member@1.1.0
         with:
           organization: OperationsYU
           username: fish9167
@@ -21,7 +21,7 @@ jobs:
 
       - name: Check organization2
         id: is_organization_member2
-        uses: OperationsYU/is-organization-member@master
+        uses: OperationsYU/is-organization-member@1.1.0
         with:
           organization: OperationsYU
           username: fish0607
