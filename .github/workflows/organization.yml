@@ -31,3 +31,4 @@ jobs:
         run: |
           echo ${{ github.event.push.user.login }}
           echo ${{ steps.is_organization_member2.outputs.result }}
+          
