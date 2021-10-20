@@ -8,12 +8,28 @@ jobs:
     steps:
       - name: Check organization
         id: is_organization_member
+        uses: OperationsYU/is-organization-member@1.1.0
+        with:
+          organization: OperationsYU
+          username: fish9167
+          #token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Echo username organization
         run: |
-         org="OperationsYU"
-         username="fish0607"
-         result=`curl -I -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/${org}/members/${username}`
-         echo ${username} ${result}
-         username2="fish9167"
-         result=`curl -I -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/${org}/members/${username2}`
-         echo ${username2} ${result}
-         
+          echo ${{ github.event.push.user.login }}
+          echo ${{ steps.is_organization_member.outputs.result }}
+
+      - name: Check organization2
+        id: is_organization_member2
+        uses: OperationsYU/is-organization-member@1.1.0
+        with:
+          organization: OperationsYU
+          username: fish0607
+          #token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Echo username organization2
+        run: |
+          echo ${{ github.event.push.user.login }}
+          echo ${{ steps.is_organization_member2.outputs.result }}
