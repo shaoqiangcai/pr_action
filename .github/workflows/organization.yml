@@ -13,8 +13,8 @@ jobs:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
             const response = await github.rest.orgs.checkMembershipForUser({
-              org: 'OperationsYU',
-              username:'fish0607'
+              'OperationsYU',
+              'fish0607'
             })
             console.log(response)
             return "Hello!"
