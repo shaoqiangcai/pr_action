@@ -7,11 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: run curl
+        id: get_check_code
         run: |
+          http_code=`curl -s --head -I -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish0607 | awk '/HTTP/{print $2}'`
+          echo "${http_code}"
           echo "======"
-          echo `curl -I -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish0607`
-          echo "======"
-          echo `curl -I -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish9167`
+          http_code=`curl -s --head -I -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/OperationsYU/members/fish9167 | awk '/HTTP/{print $2}'`
+          echo "${http_code}"
+          echo "======"          
           
       - name: Check organization
         id: is_organization_member
