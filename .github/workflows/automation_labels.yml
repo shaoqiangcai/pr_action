@@ -20,18 +20,18 @@ jobs:
       - name: Echo username organization
         run: |
           echo ${{ github.event.pull_request.user.login }}
-          echo ${{ steps.get_check_code.outputs.result }}
+          echo ${{ steps.get_check_code.outputs.http_code }}
 
       - name: Add contribution label
         if: |
-          steps.get_check_code.outputs.result == 404
+          steps.get_check_code.outputs.http_code == 404
         uses: OperationsYU/labeler@master
         with:
           add-labels: "contribution"
 
       - name: assignment
         if: |
-          steps.get_check_code.outputs.result == 404
+          steps.get_check_code.outputs.http_code == 404
         uses: OperationsYU/auto-assignment@v1
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
