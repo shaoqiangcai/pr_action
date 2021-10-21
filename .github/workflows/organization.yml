@@ -18,17 +18,9 @@ jobs:
           
       - name: Check organization
         id: is_organization_member
-        uses: actions/github-script@v4
+        uses: OperationsYU/is-organization-member@master
         with:
-          github-token: ${{ secrets.ACCESS_TOKEN }}
-          script: |
-            const response = await githup.octokit.rest.orgs.getMembershipForUser({
-            'OperationsYU',
-            'fish0607'
-            })
-            console.log(response)
-
-      - name: echo result
-        run:
-          echo "${{steps.is_organization_member.outputs.result}}" 
+          organization: OperationsYU
+          username: ${{ github.event.pull_request.user.login }}
+          token: ${{ secrets.ACCESS_TOKEN }}
 
