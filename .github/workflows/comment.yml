@@ -1,6 +1,6 @@
 name: comment
 
-on: [pull_request_review_comment]
+on: [issue_comment, pull_request_review_comment]
 
 jobs:
   check-comment:
