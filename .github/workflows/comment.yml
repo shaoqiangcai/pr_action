@@ -6,7 +6,7 @@ jobs:
   check-comment:
     runs-on: ubuntu-latest
     steps:
-      - name: acknowledge request to commenter
+      - name: check comment robot
         id: check
         uses: khan/pull-request-comment-trigger@master
         with:
