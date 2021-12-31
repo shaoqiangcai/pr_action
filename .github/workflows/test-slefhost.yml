@@ -9,5 +9,5 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
         with:
-          ssh-key: 'C:\Users\Administrator\.ssh\id_rsa'
+          ssh-key: 'C:\Users\Administrator\.ssh\id_ed'
           submodules: true
