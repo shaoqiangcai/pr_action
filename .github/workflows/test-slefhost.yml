@@ -9,4 +9,5 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
         with:
+          ssk-key: ''
           submodules: true
