@@ -1,15 +1,19 @@
 name: at_robot
 
-on: [pull_request]
+on: 
+  pull_request_review_comment:
+  issue_comment:
+    types: [created, edited]
 
 jobs:
-  at_robot:
-  if contains(github.event.comment.body, '@cocos-robot run test cases')
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v2
-      #with:
-      #  path: engine    
-    - name: run test cases
-      run: |
-         echo "call run test cases"
+  run_test_cases:
+    if: |
+      github.event.issue.pull_request && contains(github.event.comment.body, '@cocos-robot run test cases')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        #with:
+        #  path: engine    
+      - name: run test cases
+        run: |
+          echo "call run test cases"
