@@ -1,0 +1,24 @@
+name: comment
+
+on: [issue_comment, pull_request_review_comment]
+
+jobs:
+  check-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check comment robot
+        id: check
+        uses: khan/pull-request-comment-trigger@master
+        with:
+          trigger: "@cocos-robot"
+    outputs:
+      triggered: ${{ steps.check.outputs.triggered }}
+  
+  run-test-cases:
+    if: needs.check-comment.outputs.triggered == 'true'
+    runs-on: ubuntu-latest
+    needs: check-comment
+    steps:
+    - name: script
+      run: |
+         echo "call run test cases"

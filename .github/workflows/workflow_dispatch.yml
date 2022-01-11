@@ -1,0 +1,23 @@
+name: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'test cases branch'
+        required: true
+        default: 'v3.4'
+      version:
+        description: 'creator version'
+        required: true
+        default: 'v3.4.1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: echo
+      run: |
+        echo "Hello ${{ github.event.inputs.branch }}!"
+        echo "- in ${{ github.event.inputs.version }}!"

@@ -1,0 +1,11 @@
+name: slefhost
+
+on: [push]
+
+jobs:
+  slefhost:
+    runs-on: run-test-win01
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+
