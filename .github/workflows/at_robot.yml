@@ -10,8 +10,8 @@ jobs:
   run_test_cases:
     if: |
       contains(github.event.comment.body, '@cocos-robot run test cases')
-    #runs-on: ubuntu-latest
-    runs-on: run-test-win01
+    runs-on: ubuntu-latest
+    #runs-on: run-test-win01
     steps:
       - uses: actions/checkout@v2
         #with:
