@@ -7,7 +7,6 @@ jobs:
     runs-on: windows-2018
     steps:
     - uses: actions/checkout@v2
-    - name: Install deps
+    - name: echo
       run: |
-        choco install --forcex86 vulkan-sdk
-        python -m pip install PyYAML Cheetah3    
+        echo %PATH%  
