@@ -15,5 +15,3 @@ jobs:
 
       - name: 'get output'
         run: ${{ steps.task.outputs.msg }}
-
-
