@@ -8,6 +8,8 @@ on:
     
 jobs:
   read_body:
+    if: |
+      contains(github.event.comment.body, '- [x] wahah')
     runs-on: ubuntu-latest
 
     steps:
