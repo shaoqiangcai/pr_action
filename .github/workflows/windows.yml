@@ -3,8 +3,9 @@ name: windows
 on: [push, pull_request]
 
 jobs:
-  windows-2016:
-    runs-on: windows-2016
+  self-hosted:
+    #runs-on: windows-2016
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
     - name: echo
