@@ -1,4 +1,4 @@
-name: run test cases
+name: read_body
 
 on: 
   issue_comment:
