@@ -9,7 +9,8 @@ on:
 jobs:
   read_body:
     if: |
-      contains(github.event.comment.body, '- [x] wahah')
+      contains(github.event.comment.body, '- [x] wahah') &&
+      ! contains(github.event.pull_request.title, '[skip ci]')
     runs-on: ubuntu-latest
 
     steps:
