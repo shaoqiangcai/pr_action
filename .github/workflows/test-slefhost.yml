@@ -14,4 +14,4 @@ jobs:
         run: python output.py
 
       - name: 'get output'
-        run: ${{ steps.task.outputs }}
+        run: ${{ steps.task.outputs.MSG }}
