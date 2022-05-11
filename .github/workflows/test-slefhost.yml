@@ -9,5 +9,11 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
 
+      - name: 'output'
+        id: task
+        run: python output.py
+
+      - name: 'get output'
+        run: ${{ steps.task.outputs.msg }}
 
 
