@@ -8,12 +8,27 @@ on:
     
 jobs:
   read_body:
-    if: |
-      contains(github.event.comment.body, '- [x] wahah') &&
-      ! contains(github.event.pull_request.title, '[skip ci]')
+    #if: |
+    #  contains(github.event.comment.body, '- [x] wahah') &&
+    #  ! contains(github.event.pull_request.title, '[skip ci]')
     runs-on: ubuntu-latest
 
     steps:
-      - name: echo 
-        run:
-          echo ${{ github.event.comment.body }}
+      - name: Github API Request
+        id: request
+        uses: octokit/request-action@v2.0.0
+        with:
+          route: ${{ github.event.issue.pull_request.url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout PR Branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ fromJson(steps.request.outputs.data).head.repo.full_name }}
+          ref: ${{ steps.pr_data.outputs.branch }}
+    
+      - name: echo
+        run: |
+          echo $ {{ github.event.comment.body }}
