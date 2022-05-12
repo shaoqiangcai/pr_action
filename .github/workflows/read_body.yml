@@ -37,8 +37,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ fromJson(steps.request.outputs.data).head.repo.full_name }}
-          ref: ${{ steps.pr_data.outputs.branch }}
+          ref: ${{ fromJson(steps.request.outputs.data).head.sha }}
     
       - name: echo
         run: |
-          echo $ {{ github.event.comment.body }}
+          echo ${{ github.event.comment.body }}
+          echo ${{ github.event.pull_request.title }}
