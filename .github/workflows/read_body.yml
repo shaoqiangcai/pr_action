@@ -21,6 +21,10 @@ jobs:
           route: ${{ github.event.issue.pull_request.url }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: print request
+        run:
+          echo ${{ fromJson(steps.request.outputs.data) }}
 
       - name: Checkout PR Branch
         uses: actions/checkout@v2
