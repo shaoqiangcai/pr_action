@@ -11,7 +11,8 @@ jobs:
     #if: |
     #  contains(github.event.comment.body, '- [x] wahah') &&
     #  ! contains(github.event.pull_request.title, '[skip ci]')
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: run-test-win01
 
     steps:
       - name: Github API Request
