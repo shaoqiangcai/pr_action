@@ -24,7 +24,13 @@ jobs:
       
       - name: print request
         run:
-          echo ${{ fromJson(steps.request.outputs.data) }}
+          echo ${{ fromJson(steps.request.outputs.data).html_url }}
+          echo ${{ fromJson(steps.request.outputs.data).number }}
+          echo ${{ fromJson(steps.request.outputs.data).user.login }}
+          echo ${{ fromJson(steps.request.outputs.data).head.ref }}
+          echo ${{ fromJson(steps.request.outputs.data).head.sha }}
+          echo ${{ fromJson(steps.request.outputs.data).base.ref }}
+          echo ${{ fromJson(steps.request.outputs.data).base.sha }}
 
       - name: Checkout PR Branch
         uses: actions/checkout@v2
