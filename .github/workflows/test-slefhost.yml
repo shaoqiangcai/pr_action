@@ -20,23 +20,24 @@ jobs:
         if: github.event_name != 'issue_comment'
         shell: pwsh
         run: |
-          Write-Output "::set-env name=pr_number::${{ github.event.pull_request.number }}"
+          echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
 
       - name: get pr number(comment)
         if: github.event_name == 'issue_comment'
         shell: pwsh
         run: |
-          Write-Output "::set-env name=pr_number::${{ github.event.issue.number }}"
+          echo "pr_number=${{ github.event.issue.number }}" >> $GITHUB_ENV
 
       - name: echo
         run: |
           echo "${env.pr_number}"
+          echo "${pr_number}"
 
       - name: get pull_request
         id: find_pull_request
         uses: octokit/request-action@v2.x
         with:
-          route: GET /repos/cocos/cocos-engine/pulls/$env:pr_number
+          route: GET /repos/cocos/cocos-engine/pulls/${env.pr_number}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
