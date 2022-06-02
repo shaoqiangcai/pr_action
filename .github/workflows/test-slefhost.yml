@@ -1,4 +1,4 @@
-name: run-test
+name: slefhost
 
 on: 
   pull_request:
@@ -16,22 +16,19 @@ jobs:
     runs-on: run-test-win01
 
     steps:
-      - name: get pr number
+      - name: pull request number
+        id: pull_request_number
+        run: |
+          echo "::set-output name=number::${{ github.event.issue.number }}"
         if: github.event_name != 'issue_comment'
         run: |
-          echo "::set name=PR_NUMBER::${{ github.event.pull_request.number }}"
+          echo "::set-output name=number::${{ github.event.pull_request.number }}"
 
-      - name: get pr number(comment)
-        if: github.event_name == 'issue_comment'
-        run: |
-          echo "::set name=PR_NUMBER::${{ github.event.issue.number }}"
-
-      - name: get pull_request(issue)
-        if: github.event_name == 'issue_comment'
+      - name: get pull_request
         id: find_pull_request
         uses: octokit/request-action@v2.x
         with:
-          route: GET /repos/cocos/cocos-engine/pulls/$PR_NUMBER
+          route: GET /repos/cocos/cocos-engine/pulls/${{ steps.pull_request_number.outputs.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
