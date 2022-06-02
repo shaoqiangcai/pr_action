@@ -16,16 +16,22 @@ jobs:
     runs-on: run-test-win01
 
     steps:
-      - name: echo
-        run:
-          echo %GITHUB_EVENT_PATH%
+      - name: get pr number
+        if: github.event_name != 'issue_comment'
+        run: |
+          echo "::set-env PR_NUMBER=FOO::${{ github.event.pull_request.number }}"
 
-      - uses: octokit/request-action@v2.x
+      - name: get pr number(comment)
+        if: github.event_name == 'issue_comment'
+        run: |
+          echo "::set-env PR_NUMBER=FOO::${{ github.event.issue.number }}"
+
+      - name: get pull_request(issue)
+        if: github.event_name == 'issue_comment'
         id: find_pull_request
+        uses: octokit/request-action@v2.x
         with:
-          #route: GET /repos/cocos/cocos-engine/pulls/${{ github.event.issue.number }}
-          #route: GET /repos/cocos/cocos-engine/pulls/${{github.event.number}}
-          route: GET /repos/cocos/cocos-engine/pulls/$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          route: GET /repos/cocos/cocos-engine/pulls/${PR_NUMBER}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
