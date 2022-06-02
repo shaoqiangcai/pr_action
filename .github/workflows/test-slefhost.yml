@@ -1,4 +1,4 @@
-name: slefhost
+name: run-test
 
 on: 
   pull_request:
@@ -18,13 +18,15 @@ jobs:
     steps:
       - name: get pr number
         if: github.event_name != 'issue_comment'
+        shell: bash
         run: |
-          echo "::set-env PR_NUMBER=FOO::${{ github.event.pull_request.number }}"
+          echo "::set-env name=PR_NUMBER::${{ github.event.pull_request.number }}"
 
       - name: get pr number(comment)
         if: github.event_name == 'issue_comment'
+        shell: bash
         run: |
-          echo "::set-env PR_NUMBER=FOO::${{ github.event.issue.number }}"
+          echo "::set-env name=PR_NUMBER::${{ github.event.issue.number }}"
 
       - name: get pull_request(issue)
         if: github.event_name == 'issue_comment'
