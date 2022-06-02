@@ -20,13 +20,13 @@ jobs:
         if: github.event_name != 'issue_comment'
         shell: bash
         run: |
-          echo "::set-env name=PR_NUMBER::${{ github.event.pull_request.number }}"
+          echo "::set name=PR_NUMBER::${{ github.event.pull_request.number }}"
 
       - name: get pr number(comment)
         if: github.event_name == 'issue_comment'
         shell: bash
         run: |
-          echo "::set-env name=PR_NUMBER::${{ github.event.issue.number }}"
+          echo "::set name=PR_NUMBER::${{ github.event.issue.number }}"
 
       - name: get pull_request(issue)
         if: github.event_name == 'issue_comment'
