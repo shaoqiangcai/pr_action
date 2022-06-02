@@ -19,7 +19,8 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: find_pull_request
         with:
-          route: GET /repos/cocos/cocos-engine/pulls/${{ github.event.issue.number }}
+          #route: GET /repos/cocos/cocos-engine/pulls/${{ github.event.issue.number }}
+          route: GET /repos/cocos/cocos-engine/pulls/${{github.event.pull_request.number}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
