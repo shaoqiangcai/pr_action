@@ -32,7 +32,16 @@ jobs:
         run: |
           echo "${env.pr_number}"
           echo "${pr_number}"
-
+      - name: PowerShell script
+        # You may pin to the exact commit or the version.
+        # uses: Amadevus/pwsh-script@25a636480c7bc678a60bbf4e3e5ac03aca6cf2cd
+        uses: Amadevus/pwsh-script@v2.0.0
+        continue-on-error: true
+        with: 
+          # PowerShell script to execute in Actions-hydrated context
+          script: |
+            Write-Host $env:pr_number
+            
       - name: get pull_request
         id: find_pull_request
         uses: octokit/request-action@v2.x
