@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: echo
         run:
-          echo $GITHUB_EVENT_PATH
+          echo ${GITHUB_EVENT_PATH}
 
       - uses: octokit/request-action@v2.x
         id: find_pull_request
