@@ -20,7 +20,8 @@ jobs:
         id: find_pull_request
         with:
           #route: GET /repos/cocos/cocos-engine/pulls/${{ github.event.issue.number }}
-          route: GET /repos/cocos/cocos-engine/pulls/${{github.event.number}}
+          #route: GET /repos/cocos/cocos-engine/pulls/${{github.event.number}}
+          route: GET /repos/cocos/cocos-engine/pulls/$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
