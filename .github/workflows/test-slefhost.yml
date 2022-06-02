@@ -25,8 +25,10 @@ jobs:
         if: github.event_name == 'issue_comment'
         run: |
           echo "pr_number=${{ github.event.issue.number }}" >> $GITHUB_ENV
-          echo ${{ env.pr_number }}
 
+      - name: echo
+        run: |
+          echo ${{ env.pr_number }}
       - name: get pull_request(issue)
         id: find_pull_request
         uses: octokit/request-action@v2.x
