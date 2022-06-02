@@ -18,13 +18,11 @@ jobs:
     steps:
       - name: get pr number
         if: github.event_name != 'issue_comment'
-        shell: bash
         run: |
           echo "::set name=PR_NUMBER::${{ github.event.pull_request.number }}"
 
       - name: get pr number(comment)
         if: github.event_name == 'issue_comment'
-        shell: bash
         run: |
           echo "::set name=PR_NUMBER::${{ github.event.issue.number }}"
 
