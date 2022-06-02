@@ -1,4 +1,4 @@
-name: slefhost
+name: run-test
 
 on: 
   pull_request:
@@ -16,19 +16,21 @@ jobs:
     runs-on: run-test-win01
 
     steps:
-      - name: pull request number
-        id: pull_request_number
-        run: |
-          echo "::set-output name=number::${{ github.event.issue.number }}"
+      - name: get pr number
         if: github.event_name != 'issue_comment'
         run: |
-          echo "::set-output name=number::${{ github.event.pull_request.number }}"
+          echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
 
-      - name: get pull_request
+      - name: get pr number(comment)
+        if: github.event_name == 'issue_comment'
+        run: |
+          echo "pr_number=${{ github.event.issue.number }}" >> $GITHUB_ENV
+
+      - name: get pull_request(issue)
         id: find_pull_request
         uses: octokit/request-action@v2.x
         with:
-          route: GET /repos/cocos/cocos-engine/pulls/${{ steps.pull_request_number.outputs.number }}
+          route: GET /repos/cocos/cocos-engine/pulls/${{ env.pr_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -47,14 +49,12 @@ jobs:
           Write-Host "::set-output name=pr_head_sha::$($pull_request.head.sha)"
           Write-Host "::set-output name=pr_base_ref::$($pull_request.base.ref)"
           Write-Host "::set-output name=pr_base_sha::$($pull_request.base.sha)"
-
       - name: Check pull request
         run: |
           echo "${{ steps.parse_pull_request.outputs.pr_head_ref }}"
           echo "${{ steps.parse_pull_request.outputs.pr_head_sha }}"
           echo "${{ steps.parse_pull_request.outputs.pr_base_ref }}"
           echo "${{ steps.parse_pull_request.outputs.pr_base_sha }}"
-
       - name: 'Checkout engine'
         uses: actions/checkout@v2
         with:
@@ -62,3 +62,4 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ steps.parse_pull_request.outputs.pr_head_sha }}
+          
