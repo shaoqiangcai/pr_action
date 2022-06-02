@@ -19,18 +19,18 @@ jobs:
       - name: get pr number
         if: github.event_name != 'issue_comment'
         run: |
-          echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          echo "::set name=pr_number::${{ github.event.pull_request.number }}"
 
       - name: get pr number(comment)
         if: github.event_name == 'issue_comment'
         run: |
-          echo "pr_number=${{ github.event.issue.number }}" >> $GITHUB_ENV
+          echo "::set name=pr_number::${{ github.event.issue.number }}"
 
       - name: echo
         run: |
-          echo ${env.pr_number}
-          
-      - name: get pull_request(issue)
+          echo "${env.pr_number}"
+
+      - name: get pull_request
         id: find_pull_request
         uses: octokit/request-action@v2.x
         with:
@@ -66,4 +66,3 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ steps.parse_pull_request.outputs.pr_head_sha }}
-          
