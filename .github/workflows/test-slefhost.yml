@@ -28,12 +28,12 @@ jobs:
 
       - name: echo
         run: |
-          echo ${{ env.pr_number }}
+          echo ${{ env:pr_number }}
       - name: get pull_request(issue)
         id: find_pull_request
         uses: octokit/request-action@v2.x
         with:
-          route: GET /repos/cocos/cocos-engine/pulls/${{ env.pr_number }}
+          route: GET /repos/cocos/cocos-engine/pulls/${{ env:pr_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
