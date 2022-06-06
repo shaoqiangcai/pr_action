@@ -1,8 +1,6 @@
 name: run-test
 
 on: 
-  pull_request_target:
-    types: [opened, edited]
   pull_request:
     types: [opened, edited]
   issue_comment:
@@ -11,11 +9,11 @@ on:
     types: [created, edited]
 
 jobs:
-  slefhost:
+  Win-RunTestCases:
     if: |
       contains(github.event.comment.body, '[X] needs automatic test cases check') ||
       contains(github.event.comment.body, '@cocos-robot run test cases')
-    runs-on: run-test-win01
+    runs-on: self-hosted-win
 
     steps:
       - name: Get PR Number
@@ -24,16 +22,19 @@ jobs:
         run: |
           if ("${{ github.event_name }}" -eq "issue_comment") {
             Write-Host "::set-output name=pr_number::${{ github.event.issue.number }}"
+            Write-Host "::set-output name=pr_base::${{ github.ref }}"
           }
           else {
             Write-Host "::set-output name=pr_number::${{ github.event.pull_request.number }}"
+            Write-Host "::set-output name=pr_base::${{ github.ref }}"
           }
 
       - name: Get PR Details
         id: find_pull_request
         uses: octokit/request-action@v2.x
         with:
-          route: GET /repos/cocos/cocos-engine/pulls/${{ steps.check_pr.outputs.pr_number }}
+          #route: GET /repos/cocos/cocos-engine/pulls/${{ steps.check_pr.outputs.pr_number }}
+          route: GET /repos/Experiment-Action/TestAction/pulls/${{ steps.check_pr.outputs.pr_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -59,13 +60,12 @@ jobs:
           echo "${{ steps.parse_pr.outputs.pr_head_sha }}"
           echo "${{ steps.parse_pr.outputs.pr_base_ref }}"
           echo "${{ steps.parse_pr.outputs.pr_base_sha }}"
+          echo "${{ steps.check_pr.outputs.pr_base }}"
 
-      - name: 'Checkout engine(base)'
+      - name: Checkout engine
         uses: actions/checkout@v3
         with:
           ref: ${{ steps.parse_pr.outputs.pr_base_ref }}
 
-      - name: 'Checkout engine(commit)'
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ steps.parse_pr.outputs.pr_head_sha }}
+      - run: |
+          gh pr checkout ${{ steps.check_pr.outputs.pr_number }}
