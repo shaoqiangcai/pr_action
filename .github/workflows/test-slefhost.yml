@@ -32,7 +32,8 @@ jobs:
         id: find_pull_request
         uses: octokit/request-action@v2.x
         with:
-          route: GET /repos/cocos/cocos-engine/pulls/${{ steps.check_pr.outputs.pr_number }}
+          #route: GET /repos/cocos/cocos-engine/pulls/${{ steps.check_pr.outputs.pr_number }}
+          route: GET /repos/Experiment-Action/TestAction/pulls/${{ steps.check_pr.outputs.pr_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
