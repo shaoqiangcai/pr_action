@@ -22,11 +22,11 @@ jobs:
         run: |
           if ("${{ github.event_name }}" -eq "issue_comment") {
             Write-Host "::set-output name=pr_number::${{ github.event.issue.number }}"
-            Write-Host "::set-output name=pr_base::${{ github.event.issue.base.ref }}"
+            Write-Host "::set-output name=pr_base::${{ github.ref }}"
           }
           else {
             Write-Host "::set-output name=pr_number::${{ github.event.pull_request.number }}"
-            Write-Host "::set-output name=pr_base::${{ github.event.issue.base.ref }}"
+            Write-Host "::set-output name=pr_base::${{ github.ref }}"
           }
 
       - name: Get PR Details
