@@ -18,13 +18,14 @@ jobs:
     steps:
       - name: get pr number
         id: check_pr
-        shell: bash
+        shell: pwsh
         run: |
-          if [ "${{ github.event_name }}"  == issue_comment ];then
-            echo ::set-output name=pr_number::${{ github.event.issue.number }}
-          else
-            echo ::set-output name=pr_number::${{ github.event.pull_request.number }}
-          fi
+          if (${{ github.event_name }} -eq "issue_comment") {
+            Write-Host "::set-output name=pr_number::${{ github.event.issue.number }}"
+          }
+          else {
+            Write-Host "::set-output name=pr_number::${{ github.event.pull_request.number }}"
+          }
 
       - name: get pull_request
         id: find_pull_request
