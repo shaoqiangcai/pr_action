@@ -1,0 +1,71 @@
+name: run-test
+
+on: 
+  pull_request:
+    types: [opened, edited]
+  issue_comment:
+    types: [created, edited]
+  pull_request_review_comment:
+    types: [created, edited]
+
+jobs:
+  Win-RunTestCases:
+    if: |
+      contains(github.event.comment.body, '[X] needs automatic test cases check') ||
+      contains(github.event.comment.body, '@cocos-robot run test cases')
+    runs-on: self-hosted-win
+
+    steps:
+      - name: Get PR Number
+        id: check_pr
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "issue_comment") {
+            Write-Host "::set-output name=pr_number::${{ github.event.issue.number }}"
+            Write-Host "::set-output name=pr_base::${{ github.ref }}"
+          }
+          else {
+            Write-Host "::set-output name=pr_number::${{ github.event.pull_request.number }}"
+            Write-Host "::set-output name=pr_base::${{ github.ref }}"
+          }
+
+      - name: Get PR Details
+        id: find_pull_request
+        uses: octokit/request-action@v2.x
+        with:
+          #route: GET /repos/cocos/cocos-engine/pulls/${{ steps.check_pr.outputs.pr_number }}
+          route: GET /repos/Experiment-Action/TestAction/pulls/${{ steps.check_pr.outputs.pr_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Parse Pull Request
+        id: parse_pr
+        shell: pwsh
+        run: |
+          $pull_request = @"
+          ${{ steps.find_pull_request.outputs.data }}
+          "@ | ConvertFrom-Json
+          Write-Host $pull_request
+          Write-Host "::set-output name=pr_html_url::$($pull_request.html_url)"
+          Write-Host "::set-output name=pr_number::$($pull_request.number)"
+          Write-Host "::set-output name=pr_author::$($pull_request.user.login)"
+          Write-Host "::set-output name=pr_head_ref::$($pull_request.head.ref)"
+          Write-Host "::set-output name=pr_head_sha::$($pull_request.head.sha)"
+          Write-Host "::set-output name=pr_base_ref::$($pull_request.base.ref)"
+          Write-Host "::set-output name=pr_base_sha::$($pull_request.base.sha)"
+
+      - name: Check Job Parameter
+        run: |
+          echo "${{ steps.parse_pr.outputs.pr_head_ref }}"
+          echo "${{ steps.parse_pr.outputs.pr_head_sha }}"
+          echo "${{ steps.parse_pr.outputs.pr_base_ref }}"
+          echo "${{ steps.parse_pr.outputs.pr_base_sha }}"
+          echo "${{ steps.check_pr.outputs.pr_base }}"
+
+      - name: Checkout engine
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.parse_pr.outputs.pr_base_ref }}
+
+      - run: |
+          gh pr checkout ${{ steps.check_pr.outputs.pr_number }}

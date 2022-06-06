@@ -1,0 +1,47 @@
+name: read_body
+
+on:
+  pull_request:
+  issue_comment:
+    types: [created, edited]
+  pull_request_review_comment:
+    types: [created, edited]
+    
+jobs:
+  read_body:
+    #if: |
+    #  contains(github.event.comment.body, '- [x] wahah') &&
+    #  ! contains(github.event.pull_request.title, '[skip ci]')
+    #runs-on: ubuntu-latest
+    runs-on: run-test-win01
+
+    steps:
+      - name: Github API Request
+        id: request
+        uses: octokit/request-action@v2.0.0
+        with:
+          route: ${{ github.event.issue.pull_request.url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: print request
+        run:
+          echo ${{ fromJson(steps.request.outputs.data).html_url }}
+          echo ${{ fromJson(steps.request.outputs.data).number }}
+          echo ${{ fromJson(steps.request.outputs.data).user.login }}
+          echo ${{ fromJson(steps.request.outputs.data).head.ref }}
+          echo ${{ fromJson(steps.request.outputs.data).head.sha }}
+          echo ${{ fromJson(steps.request.outputs.data).base.ref }}
+          echo ${{ fromJson(steps.request.outputs.data).base.sha }}
+
+      - name: Checkout PR Branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ fromJson(steps.request.outputs.data).head.repo.full_name }}
+          ref: ${{ fromJson(steps.request.outputs.data).head.sha }}
+    
+      - name: print body
+        run: |
+          echo ${{ github.event.comment.body }}
+          echo ${{ github.event.pull_request.title }}

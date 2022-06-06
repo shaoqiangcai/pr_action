@@ -1,0 +1,12 @@
+name: ChangeFiles
+
+on: 
+  pull_request:
+    paths:
+    - 'wahah/**' 
+
+jobs:
+  wahah:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2

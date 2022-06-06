@@ -1,0 +1,15 @@
+name: request_comment
+
+on: pull_request_target
+#on: [pull_request]
+
+jobs:
+  request_comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+          
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            hello comment
