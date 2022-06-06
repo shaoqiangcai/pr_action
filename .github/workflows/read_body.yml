@@ -1,6 +1,7 @@
 name: read_body
 
-on: 
+on:
+  pull_request:
   issue_comment:
     types: [created, edited]
   pull_request_review_comment:
