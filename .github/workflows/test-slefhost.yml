@@ -20,7 +20,7 @@ jobs:
         id: check_pr
         shell: pwsh
         run: |
-          if (${{ github.event_name }} -eq "issue_comment") {
+          if ("${{ github.event_name }}" -eq "issue_comment") {
             Write-Host "::set-output name=pr_number::${{ github.event.issue.number }}"
           }
           else {
