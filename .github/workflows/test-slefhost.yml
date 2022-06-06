@@ -15,8 +15,7 @@ jobs:
     if: |
       contains(github.event.comment.body, '[X] needs automatic test cases check') ||
       contains(github.event.comment.body, '@cocos-robot run test cases')
-    runs-on: run-test-win01
-
+    runs-on: self-hosted-win
     steps:
       - name: Get PR Number
         id: check_pr
