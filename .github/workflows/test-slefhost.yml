@@ -17,26 +17,20 @@ jobs:
 
     steps:
       - name: get pr number
-        if: github.event_name != 'issue_comment'
-        run: echo "${{ github.event.pull_request.number }}"
-        env:
-          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
-
-      - name: get pr number(comment)
-        if: github.event_name == 'issue_comment'
-        run: echo "${{ github.event.issue.number }}"
-        env:
-          GITHUB_PR_NUMBER: ${{ github.event.issue.number }}
-
-      - name: echo
+        id: check_pr
+        shell: bash
         run: |
-          echo "${{ GITHUB_PR_NUMBER }}"
+          if [ "${{ github.event_name }}"  == issue_comment ];then
+            echo ::set-output name=pr_number::${{ github.event.issue.number }}
+          else
+            echo ::set-output name=pr_number::${{ github.event.pull_request.number }}
+          fi
 
       - name: get pull_request
         id: find_pull_request
         uses: octokit/request-action@v2.x
         with:
-          route: GET /repos/cocos/cocos-engine/pulls/${{ GITHUB_PR_NUMBER }}
+          route: GET /repos/cocos/cocos-engine/pulls/${{ steps.check_pr.outputs.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
