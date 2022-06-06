@@ -3,11 +3,11 @@ name: windows
 on: [push, pull_request]
 
 jobs:
-  list-pr:
-    runs-on: windows-2018
+  self-hosted:
+    #runs-on: windows-2016
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
-    - name: Install deps
+    - name: echo
       run: |
-        choco install --forcex86 vulkan-sdk
-        python -m pip install PyYAML Cheetah3    
+        echo %PATH%  
