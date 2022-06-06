@@ -19,13 +19,13 @@ jobs:
       - name: get pr number
         if: github.event_name != 'issue_comment'
         run: echo "${{ github.event.pull_request.number }}"
-        env: |
+        env:
           GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
 
       - name: get pr number(comment)
         if: github.event_name == 'issue_comment'
         run: echo "${{ github.event.issue.number }}"
-        env: |
+        env:
           GITHUB_PR_NUMBER: ${{ github.event.issue.number }}
 
       - name: echo
