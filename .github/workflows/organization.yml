@@ -19,5 +19,18 @@ jobs:
           
       - name: echo staus
         run: |
-          echo "${{ steps.get_check_code.outputs.http_code }}"
+          echo "${{ steps.get_check_code.outputs.http_code }}"    
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: 1111
+          body: |
+            Please check the result of `run test cases`:
+            - Test Platform: macOS
+            - Editor Version: 3
+            - Task Result:3
+            - Task URL: 33333
+            - GitHub Action: https://github.com/cocos/cocos-engine/actions/runs/33333
+            ## Task Details
+            fdsafdsafdsa
 
