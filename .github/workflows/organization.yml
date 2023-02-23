@@ -21,11 +21,11 @@ jobs:
         run: |
           echo "${{ steps.get_check_code.outputs.http_code }}"    
       - name: Create comment
-        uses: peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: 1
           body: |
-            Please check the result of `run test cases`:
+            Please check the result of `run cases`:
             - Test Platform: macOS
             - Editor Version: 3
             - Task Result:3
