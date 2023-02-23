@@ -22,8 +22,8 @@ jobs:
           echo "${{ steps.get_check_code.outputs.http_code }}"    
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v2
-        token: ${{ secrets.SERVICE }}
         with:
+          token: ${{ secrets.SERVICE }}
           issue-number: 1111
           body: |
             Please check the result of `run test cases`:
