@@ -5,36 +5,14 @@ on: [create, push, delete]
 jobs:
   mirror_to_gitee:
     runs-on: ubuntu-latest
-#     steps:
-#       - name: 'Checkout'
-#         uses: actions/checkout@v1
-#       - name: 'Mirror to gitee'
-#         uses: pixta-dev/repository-mirroring-action@v1
-#         with:
-#           target_repo_url:
-#             git@gitee.com:creator-cocos/pr_action.git
-#           ssh_private_key:
-#             ${{ secrets.GITEE_KEY }} 
-#     steps:
-#       - name: 'Checkout'
-#         uses: actions/checkout@v1
-#       - name: 'Mirror to gitee'
-#         uses: pixta-dev/repository-mirroring-action@v1
-#         with:
-#           target_repo_url:
-#             git@gitee.com:creator-cocos/pr_action.git
-#           ssh_private_key:
-#             ${{ secrets.GITEE_KEY }} 
-      - name: Create comment
-        uses: peter-evans/create-or-update-comment@v2
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v1
+      - name: 'Mirror to gitee'
+        uses: pixta-dev/repository-mirroring-action@v1
         with:
-          issue-number: ${{ steps.get_pr.outputs.pr_number }}
-          body: |
-            Please check the result of `run test cases`:
-            - Test Platform: macOS
-            - Editor Version: 3
-            - Task Result:3
-            - Task URL: 33333
-            - GitHub Action: https://github.com/cocos/cocos-engine/actions/runs/33333
-            ## Task Details
-            fdsafdsafdsa
+          target_repo_url:
+            git@gitee.com:creator-cocos/pr_action.git
+          ssh_private_key:
+            ${{ secrets.GITEE_KEY }} 
+
