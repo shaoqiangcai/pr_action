@@ -32,7 +32,12 @@ jobs:
             - Task URL: 33333
             - GitHub Action: https://github.com/cocos/cocos-engine/actions/runs/33333
             ## Task Details
-            fdsafdsafdsa
+            
+            
+            | Platform | build | runned | result | crashScene | FailScene | 
+            | :---: | :---: | :---: | :---: | :---: | :---: |  
+            | WebDesktop_release | PASS | PASS | FAIL | NA | BuildTimeConstantsTest,cameraUseRenderTex,CoreJsTest | 
+
 #       - name: Create comment
 #         uses: peter-evans/create-or-update-comment@v2
 #         with:
