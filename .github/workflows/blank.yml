@@ -1,12 +1,49 @@
-name: ChangeFiles
-
-on: 
-  pull_request:
-    paths:
-    - 'wahah/**' 
-
-jobs:
-  wahah:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+name: Refresh Huawei Cloud CDN Cache  
+  
+on:  
+  push: # 您可以根据需要调整触发条件，这里设置为每次push操作时触发  
+  
+jobs:  
+  refresh-cdn:  
+    runs-on: ubuntu-latest  
+    steps:  
+    - name: Checkout code  
+      uses: actions/checkout@v2  
+  
+    - name: Install jq  
+      run: sudo apt-get install -y jq  
+  
+    - name: Set up environment variables  
+      run: |  
+        echo "CURRENT_DATE=$(date -u +'%Y%m%dT%H%M%SZ')" >> $GITHUB_ENV  
+        echo "SERVICE_NAME=cdn" >> $GITHUB_ENV  
+        echo "REGION=05b60443220026ee2f8fc00ec8c01c7a" >> $GITHUB_ENV  
+        echo "REQUEST_METHOD=POST" >> $GITHUB_ENV  
+        echo "REQUEST_URI=/v1.0/cdn/content/refresh" >> $GITHUB_ENV  
+        echo "HOST=cdn.myhuaweicloud.com" >> $GITHUB_ENV  
+        echo "CONTENT_TYPE=application/json" >> $GITHUB_ENV  
+        echo "DIRECTORY_URL=https://docs.cocos.com/" >> $GITHUB_ENV  
+  
+    - name: Build request payload  
+      run: |  
+        REQUEST_PAYLOAD="{\"refresh_task\":{\"type\":\"directory\",\"urls\":[\"$DIRECTORY_URL\"]}}"  
+        echo "REQUEST_PAYLOAD_HASH=$(echo -n $REQUEST_PAYLOAD | openssl dgst -sha256 -binary | base64)" >> $GITHUB_ENV  
+  
+    - name: Generate signature  
+      run: |  
+        CANONICAL_URI="/v1.0/cdn/content/refresh"  
+        CANONICAL_QUERYSTRING=""  
+        CANONICAL_HEADERS="content-type:$CONTENT_TYPE\nhost:$HOST\nx-sdk-date:$CURRENT_DATE\n"  
+        SIGNED_HEADERS="content-type;host;x-sdk-date"  
+        CANONICAL_REQUEST="$REQUEST_METHOD\n$CANONICAL_URI\n$CANONICAL_QUERYSTRING\n$CANONICAL_HEADERS\n$SIGNED_HEADERS\n$REQUEST_PAYLOAD_HASH"  
+        SIGNATURE=$(echo -n "SDK-HMAC-SHA256\n$CURRENT_DATE\n$REGION/$SERVICE_NAME/sdk_request\n$(echo -n $CANONICAL_REQUEST | openssl dgst -sha256 -binary | base64)" | openssl dgst -sha256 -hmac "AiBUnJUpimPVuDBB6JkRBCOVe2ArYhsSgVc1rthv" -binary | base64)  
+        echo "SIGNATURE=$SIGNATURE" >> $GITHUB_ENV  
+  
+    - name: Refresh CDN Cache  
+      run: |  
+        curl -X $REQUEST_METHOD "https://$HOST$REQUEST_URI" \  
+          -H "Content-Type: $CONTENT_TYPE" \  
+          -H "Host: $HOST" \  
+          -H "X-Sdk-Date: $CURRENT_DATE" \  
+          -H "Authorization: SDK-HMAC-SHA256 Access=CTGTG9HCVI6DJQEF3D22, SignedHeaders=$SIGNED_HEADERS, Signature=$SIGNATURE" \  
+          -d $REQUEST_PAYLOAD  
