@@ -18,7 +18,6 @@ jobs:
           IAM_ENDPOINT="https://iam.myhuaweicloud.com/v3/auth/tokens"  
           DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")  
           PAYLOAD="{\"auth\":{\"identity\":{\"methods\":[\"aksk\"],\"aksk\":{\"access\":{\"key\":\"$AK\"},\"secret\":{\"key\":\"$SK\"}}},\"scope\":{\"project\":{\"id\":\"$PROJECT_ID\"}}}}"  
-            
           IAM_RESPONSE=$(curl -si -X POST "$IAM_ENDPOINT" \  
             -H "Content-Type: application/json" \  
             -d "$PAYLOAD")  
