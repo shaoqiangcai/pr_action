@@ -19,7 +19,7 @@ jobs:
         echo "SERVICE_NAME=cdn" >> $GITHUB_ENV  
         echo "REGION=05b60443220026ee2f8fc00ec8c01c7a" >> $GITHUB_ENV  
         echo "REQUEST_METHOD=POST" >> $GITHUB_ENV  
-        echo "REQUEST_URI=/v1.0/cdn/content/refresh" >> $GITHUB_ENV  
+        echo "REQUEST_URI=/v1.0/cdn/content/refresh-tasks" >> $GITHUB_ENV  
         echo "HOST=cdn.myhuaweicloud.com" >> $GITHUB_ENV  
         echo "CONTENT_TYPE=application/json" >> $GITHUB_ENV  
         echo "DIRECTORY_URL=https://docs.cocos.com/" >> $GITHUB_ENV  
