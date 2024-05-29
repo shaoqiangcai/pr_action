@@ -1,7 +1,7 @@
 name: Refresh Huawei Cloud CDN Cache  
   
 on:  
-  push: # 或者其他您希望触发工作流的事件  
+  push: # 根据需要触发工作流的事件  
   
 jobs:  
   refresh-cdn:  
@@ -15,38 +15,64 @@ jobs:
         env:  
           AK: ${{ secrets.HUAWEI_CLOUD_ACCESS_KEY }}  
           SK: ${{ secrets.HUAWEI_CLOUD_SECRET_KEY }}  
-          PROJECT_ID: "05b60443220026ee2f8fc00ec8c01c7a"  
+          PROJECT_ID: "05b60443220026ee2f8fc00ec8c01c7a" # 替换为您的实际项目ID  
           IAM_ENDPOINT: "https://iam.myhuaweicloud.com/v3/auth/tokens"  
           CDN_ENDPOINT: "https://cdn.myhuaweicloud.com/v1.0/cdn/content/refresh-tasks"  
         run: |  
-          PAYLOAD="{\"auth\":{\"identity\":{\"methods\":[\"aksk\"],\"aksk\":{\"access\":{\"key\":\"$AK\"},\"secret\":{\"key\":\"$SK\"}}},\"scope\":{\"project\":{\"id\":\"$PROJECT_ID\"}}}}"  
-            
-          # 发送请求并打印完整的响应头部信息  
+          PAYLOAD=$(cat <<EOF  
+          {  
+            "auth": {  
+              "identity": {  
+                "methods": ["aksk"],  
+                "aksk": {  
+                  "access": {  
+                    "key": "${AK}"  
+                  },  
+                  "secret": {  
+                    "key": "${SK}"  
+                  }  
+                }  
+              },  
+              "scope": {  
+                "project": {  
+                  "id": "${PROJECT_ID}"  
+                }  
+              }  
+            }  
+          }  
+          EOF  
+          )  
+  
           IAM_RESPONSE=$(curl -si -X POST "$IAM_ENDPOINT" \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD")
-          echo "IAM_RESPONSE headers:"
-          echo "$IAM_RESPONSE" | head -n 20  # 打印前20行响应头部信息  
-              
-          # 提取IAM令牌  
-          IAM_TOKEN=$(echo "$IAM_RESPONSE" | grep -Fi 'X-Subject-Token' | awk '{print $2}' | tr -d '\r\n')  
-          if [ -z "$IAM_TOKEN" ]; then
-            echo "Failed to get IAM token"
+  
+          IAM_TOKEN=$(echo "$IAM_RESPONSE" | grep 'X-Subject-Token' | awk '{print $2}' | tr -d '\r\n')  
+  
+          if [ -z "$IAM_TOKEN" ]; then  
+            echo "Failed to get IAM token"  
             echo "Full response:"  
-            echo "$IAM_RESPONSE"  # 打印完整响应信息以便调试  
+            echo "$IAM_RESPONSE"  
             exit 1  
           fi  
-              
-          # 如果IAM令牌提取成功  
-          echo "IAM_TOKEN=$IAM_TOKEN"  
-              
-          # 构建刷新CDN缓存的请求负载  
-          CDN_PAYLOAD="{\"refresh_task\":{\"type\":\"file\",\"urls\":[\"https://docs.cocos.com/\"]}}"  
-              
-          # 发送刷新CDN缓存的请求  
+  
+          echo "IAM_TOKEN=$IAM_TOKEN"
+  
+          CDN_PAYLOAD=$(cat <<EOF  
+          {
+            "refresh_task": {
+              "type": "file",
+              "urls": [
+                "https://docs.cocos.com/" # 替换为您要刷新的CDN资源的实际URL  
+              ]
+            }
+          }
+          EOF  
+          )  
+  
           CDN_RESPONSE=$(curl -si -X POST "$CDN_ENDPOINT" \
             -H "Content-Type: application/json" \
             -H "X-Auth-Token: $IAM_TOKEN" \
             -d "$CDN_PAYLOAD")
-          echo "CDN_RESPONSE:"  
-          echo "$CDN_RESPONSE" | head -n 20  # 打印前20行响应信息  
+  
+          echo "$CDN_RESPONSE" | head -n 20  
