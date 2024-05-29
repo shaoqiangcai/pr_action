@@ -37,7 +37,7 @@ jobs:
           CDN_ENDPOINT: 'https://cdn.myhuaweicloud.com/v1.0/cdn/content/refresh-tasks'  
           IAM_TOKEN: ${{ steps.get-token.outputs.IAM_TOKEN }}  
         run: |  
-          CDN_PAYLOAD="{\"refresh_task\":{\"type\":\"file\",\"urls\":[\"https://docs.cocos.com/\"]}}"
+          CDN_PAYLOAD="{\"refresh_task\":{\"type\":\"directory\",\"urls\":[\"https://docs.cocos.com/\"]}}"
           CDN_RESPONSE=$(curl -si -X POST "$CDN_ENDPOINT" \
             -H "Content-Type: application/json" \
             -H "X-Auth-Token: $IAM_TOKEN" \
