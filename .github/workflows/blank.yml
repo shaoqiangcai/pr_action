@@ -7,34 +7,33 @@ jobs:
   refresh-cdn:  
     runs-on: ubuntu-latest  
     steps:  
-    - name: Checkout code  
-      uses: actions/checkout@v2  
+      - name: Checkout code  
+        uses: actions/checkout@v2  
   
-    - name: Get Huawei Cloud IAM Token  
-      run: |  
-        AK="CTGTG9HCVI6DJQEF3D22"  
-        SK="AiBUnJUpimPVuDBB6JkRBCOVe2ArYhsSgVc1rthv"  
-        IAM_ENDPOINT="https://iam.myhuaweicloud.com/v3/auth/tokens"  
-        DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")  
-        PAYLOAD="{\"auth\":{\"identity\":{\"methods\":[\"aksk\"],\"aksk\":{\"access\":{\"key\":\"$AK\"},\"secret\":{\"key\":\"$SK\"}}},\"scope\":{\"project\":{\"id\":\"05b60443220026ee2f8fc00ec8c01c7a\"}}}}"  
-        SIGNATURE=$(echo -en "POST\n/v3/auth/tokens\n\n\n\n$DATE\n$PAYLOAD" | openssl dgst -sha256 -hmac "$SK" -binary | base64)  
-        IAM_RESPONSE=$(curl -si -X POST $IAM_ENDPOINT \  
-          -H "Content-Type: application/json" \  
-          -H "X-Auth-Date: $DATE" \  
-          -H "Authorization: SDK-HMAC-SHA256 Access=$AK, SignedHeaders=content-type;host;x-auth-date, Signature=$SIGNATURE" \  
-          -d "$PAYLOAD")  
-        IAM_TOKEN=$(echo "$IAM_RESPONSE" | grep X-Subject-Token: | awk '{print $2}' | tr -d '\r')  
-        echo "IAM_TOKEN=$IAM_TOKEN" >> $GITHUB_ENV  
-        if [ -z "$IAM_TOKEN" ]; then  
-          echo "Failed to get IAM token"  
-          exit 1  
-        fi  
+      - name: Get Huawei Cloud IAM Token  
+        run: |  
+          AK="CTGTG9HCVI6DJQEF3D22"  
+          SK="AiBUnJUpimPVuDBB6JkRBCOVe2ArYhsSgVc1rthv"  
+          PROJECT_ID="05b60443220026ee2f8fc00ec8c01c7a"  
+          IAM_ENDPOINT="https://iam.myhuaweicloud.com/v3/auth/tokens"  
+          DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")  
+          PAYLOAD="{\"auth\":{\"identity\":{\"methods\":[\"aksk\"],\"aksk\":{\"access\":{\"key\":\"$AK\"},\"secret\":{\"key\":\"$SK\"}}},\"scope\":{\"project\":{\"id\":\"$PROJECT_ID\"}}}}"  
+            
+          IAM_RESPONSE=$(curl -si -X POST "$IAM_ENDPOINT" \  
+            -H "Content-Type: application/json" \  
+            -d "$PAYLOAD")  
+          IAM_TOKEN=$(echo "$IAM_RESPONSE" | grep X-Subject-Token: | awk '{print $2}' | tr -d '\r')  
+          echo "IAM_TOKEN=$IAM_TOKEN" >> $GITHUB_ENV  
+          if [ -z "$IAM_TOKEN" ]; then  
+            echo "Failed to get IAM token"  
+            exit 1  
+          fi  
   
-    - name: Refresh CDN Cache  
-      run: |  
-        CDN_ENDPOINT="https://cdn.myhuaweicloud.com/v1.0/cdn/content/refresh-tasks"  
-        CDN_PAYLOAD="{\"refresh_task\":{\"type\":\"directory\",\"urls\":[\"https://docs.cocos.com/\"]}}"  
-        curl -X POST $CDN_ENDPOINT \  
-          -H "Content-Type: application/json" \  
-          -H "X-Auth-Token: $IAM_TOKEN" \  
-          -d "$CDN_PAYLOAD"  
+      - name: Refresh CDN Cache  
+        run: |  
+          CDN_ENDPOINT="https://cdn.myhuaweicloud.com/v1.0/cdn/content/refresh-tasks"  
+          CDN_PAYLOAD="{\"refresh_task\":{\"type\":\"directory\",\"urls\":[\"https://docs.cocos.com/\"]}}"  
+          curl -X POST "$CDN_ENDPOINT" \  
+            -H "Content-Type: application/json" \  
+            -H "X-Auth-Token: $IAM_TOKEN" \  
+            -d "$CDN_PAYLOAD"  
