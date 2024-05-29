@@ -1,7 +1,7 @@
 name: Refresh Huawei Cloud CDN Cache  
   
 on:  
-  push: # 根据需要触发工作流的事件  
+  push: # 当代码被推送到仓库时触发  
   
 jobs:  
   refresh-cdn:  
@@ -9,34 +9,37 @@ jobs:
     steps:  
       - name: Checkout code  
         uses: actions/checkout@v2  
-  
+        
       - name: Get Huawei Cloud IAM Token  
+        id: get-token  
         env:  
-          USERNAME: ${{ secrets.HUAWEI_CLOUD_USERNAME }}
-          PASSWORD: ${{ secrets.HUAWEI_CLOUD_PASSWORD }}
-          DOMAIN_NAME: Cocos_xm
-          PROJECT_ID: 05b60443220026ee2f8fc00ec8c01c7a
-          IAM_ENDPOINT: https://iam.myhuaweicloud.com/v3/auth/tokens  
+          HWCLOUD_USERNAME: ${{ secrets.HUAWEI_CLOUD_USERNAME }}  
+          HWCLOUD_PASSWORD: ${{ secrets.HUAWEI_CLOUD_PASSWORD }}  
+          HWCLOUD_DOMAIN_NAME: ${{ secrets.HUAWEI_CLOUD_DOMAIN_NAME }}  
+          HWCLOUD_PROJECT_ID: ${{ secrets.HUAWEI_CLOUD_PROJECT_ID }}  
+          IAM_ENDPOINT: 'https://iam.myhuaweicloud.com/v3/auth/tokens'  
         run: |  
-          PAYLOAD="{\"auth\":{\"identity\":{\"methods\":[\"password\"],\"password\":{\"user\":{\"name\":\"$USERNAME\",\"password\":\"$PASSWORD\",\"domain\":{\"name\":\"$DOMAIN_NAME\"}}}},\"scope\":{\"project\":{\"id\":\"$PROJECT_ID\"}}}}"  
+          PAYLOAD="{\"auth\":{\"identity\":{\"methods\":[\"password\"],\"password\":{\"user\":{\"name\":\"$HWCLOUD_USERNAME\",\"password\":\"$HWCLOUD_PASSWORD\",\"domain\":{\"name\":\"$HWCLOUD_DOMAIN_NAME\"}}}},\"scope\":{\"project\":{\"id\":\"$HWCLOUD_PROJECT_ID\"}}}}"  
           IAM_RESPONSE=$(curl -si -X POST "$IAM_ENDPOINT" \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD")
-          IAM_TOKEN=$(echo "$IAM_RESPONSE" | grep X-Subject-Token: | awk '{print $2}' | tr -d '\r\n')  
+          IAM_TOKEN=$(echo "$IAM_RESPONSE" | grep X-Subject-Token: | awk '{print $2}' | tr -d '\r')  
           if [ -z "$IAM_TOKEN" ]; then  
             echo "Failed to get IAM token"  
             exit 1  
           fi  
           echo "IAM_TOKEN=$IAM_TOKEN"  
-  
+          echo "::set-output name=IAM_TOKEN::$IAM_TOKEN"  
+        
       - name: Refresh CDN Cache  
+        if: success() && steps.get-token.outputs.IAM_TOKEN  
         env:  
-          CDN_ENDPOINT: https://cdn.myhuaweicloud.com/v1.0/cdn/content/refresh-tasks  
+          CDN_ENDPOINT: 'https://cdn.myhuaweicloud.com/v1.0/cdn/content/refresh-tasks'  
           IAM_TOKEN: ${{ steps.get-token.outputs.IAM_TOKEN }}  
         run: |  
-          CDN_PAYLOAD="{\"refresh_task\":{\"type\":\"file\",\"urls\":[\"https://docs.cocos.com/\"]}}"  
+          CDN_PAYLOAD="{\"refresh_task\":{\"type\":\"file\",\"urls\":[\"https://docs.cocos.com/\"]}}"
           CDN_RESPONSE=$(curl -si -X POST "$CDN_ENDPOINT" \
             -H "Content-Type: application/json" \
             -H "X-Auth-Token: $IAM_TOKEN" \
-            -d "$CDN_PAYLOAD")  
-          echo "$CDN_RESPONSE"  
+            -d "$CDN_PAYLOAD")
+          echo "$CDN_RESPONSE"
