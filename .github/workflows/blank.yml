@@ -12,10 +12,10 @@ jobs:
   
       - name: Get Huawei Cloud IAM Token  
         env:  
-          USERNAME: ${{ secrets.HUAWEI_CLOUD_USERNAME }}  
-          PASSWORD: ${{ secrets.HUAWEI_CLOUD_PASSWORD }}  
-          DOMAIN_NAME: ${{ secrets.HUAWEI_CLOUD_DOMAIN_NAME }}  
-          PROJECT_ID: ${{ secrets.HUAWEI_CLOUD_PROJECT_ID }}  
+          USERNAME: ${{ secrets.HUAWEI_CLOUD_USERNAME }}
+          PASSWORD: ${{ secrets.HUAWEI_CLOUD_PASSWORD }}
+          DOMAIN_NAME: ${{ secrets.HUAWEI_CLOUD_DOMAIN_NAME }}
+          PROJECT_ID: ${{ secrets.HUAWEI_CLOUD_PROJECT_ID }}
           IAM_ENDPOINT: https://iam.myhuaweicloud.com/v3/auth/tokens  
         run: |  
           PAYLOAD="{\"auth\":{\"identity\":{\"methods\":[\"password\"],\"password\":{\"user\":{\"name\":\"$USERNAME\",\"password\":\"$PASSWORD\",\"domain\":{\"name\":\"$DOMAIN_NAME\"}}}},\"scope\":{\"project\":{\"id\":\"$PROJECT_ID\"}}}}"  
