@@ -14,7 +14,7 @@ jobs:
         env:  
           USERNAME: ${{ secrets.HUAWEI_CLOUD_USERNAME }}
           PASSWORD: ${{ secrets.HUAWEI_CLOUD_PASSWORD }}
-          DOMAIN_NAME: Cocos_xm
+          DOMAIN_NAME: cocos_oss
           PROJECT_ID: 05b60443220026ee2f8fc00ec8c01c7a
           IAM_ENDPOINT: https://iam.myhuaweicloud.com/v3/auth/tokens  
         run: |  
