@@ -36,3 +36,5 @@ jobs:
             -H "Content-Type: application/json" \  
             -H "X-Auth-Token: $IAM_TOKEN" \  
             -d "$CDN_PAYLOAD"  
+        env:  
+          IAM_TOKEN: ${{ env.IAM_TOKEN }}  
