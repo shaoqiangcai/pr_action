@@ -14,8 +14,8 @@ jobs:
         env:  
           USERNAME: ${{ secrets.HUAWEI_CLOUD_USERNAME }}  
           PASSWORD: ${{ secrets.HUAWEI_CLOUD_PASSWORD }}  
-          DOMAIN_NAME: Cocos_xm  
-          PROJECT_ID: 05b60443220026ee2f8fc00ec8c01c7a  
+          DOMAIN_NAME: ${{ secrets.HUAWEI_CLOUD_DOMAIN_NAME }}  
+          PROJECT_ID: ${{ secrets.HUAWEI_CLOUD_PROJECT_ID }}  
           IAM_ENDPOINT: https://iam.myhuaweicloud.com/v3/auth/tokens  
         run: |  
           PAYLOAD="{\"auth\":{\"identity\":{\"methods\":[\"password\"],\"password\":{\"user\":{\"name\":\"$USERNAME\",\"password\":\"$PASSWORD\",\"domain\":{\"name\":\"$DOMAIN_NAME\"}}}},\"scope\":{\"project\":{\"id\":\"$PROJECT_ID\"}}}}"  
