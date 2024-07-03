@@ -12,34 +12,49 @@ jobs:
           details: ${{ steps.pr_details.outputs.data }}
           last_update_date: ${{ github.event.comment.created_at || github.event.pull_request.updated_at }}
         run: |
-          # Convert the JSON string to a PowerShell object 
-          $pull_request = $env:details | ConvertFrom-Json
-          #$pull_request = ConvertFrom-Json -InputObject "${{ env.details }}"
-          
-          # Extract data from the JSON object
+          # # Convert the JSON string to a PowerShell object 
+          # $pull_request = $env:details | ConvertFrom-Json
+          # #$pull_request = ConvertFrom-Json -InputObject "${{ env.details }}"
+          $format = "yyyy-MM-ddTHH:mm:ssZ"  
+  
+          # Convert the JSON string to a PowerShell object  
+          $pull_request = $env:details | ConvertFrom-Json  
+  
+          # Extract data from the JSON object  
           $pr_html_url = $pull_request.html_url  
           $pr_author = $pull_request.user.login  
           $pr_head_ref = $pull_request.head.ref  
           $pr_head_sha = $pull_request.head.sha  
           $pr_base_ref = $pull_request.base.ref  
           $pr_base_sha = $pull_request.base.sha  
-          $pr_updated_at = [datetime]::Parse($pull_request.updated_at)
-          $last_update_date_str = "${{ env.last_update_date }}"  
-          if ($last_update_date_str) {  
-              $last_update_date = [datetime]::Parse($last_update_date_str)  
-          } else {  
-              # Defaults to a date before the current time  
-              $last_update_date = [datetime]::MinValue  
+            
+          # Try to parse the updated_at date  
+          $pr_updated_at = New-Object DateTime  
+          if (![datetime]::TryParseExact($pull_request.updated_at, $format, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::AssumeUniversal, [ref]$pr_updated_at)) {  
+              Write-Host "Failed to parse updated_at date"  
+              # Handle the error appropriately  
+              exit 1  
           }  
   
+          # Try to parse the last update date  
+          $last_update_date_str = "$env:last_update_date"  
+          $last_update_date = New-Object DateTime  
+          if (![datetime]::TryParseExact($last_update_date_str, $format, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::AssumeUniversal, [ref]$last_update_date)) {  
+              Write-Host "Failed to parse last update date"  
+              # Handle the error appropriately  
+              exit 1  
+          }  
+  
+          # Check if the PR is updated after the last update date  
           if ($pr_updated_at -gt $last_update_date) {  
-               Write-Host "PR is updated after the last update date. Exiting..."  
-               exit 1  
-          } 
-          #Output extracted information into GitHub Actions parameters
+              Write-Host "PR is updated after the last update date. Exiting..."  
+              exit 1  
+          }   
+
+          # Output extracted information into GitHub Actions parameters  
           echo "pr_html_url=$pr_html_url" | Out-File -Append -FilePath $env:GITHUB_OUTPUT  
           echo "pr_author=$pr_author" | Out-File -Append -FilePath $env:GITHUB_OUTPUT  
           echo "pr_head_ref=$pr_head_ref" | Out-File -Append -FilePath $env:GITHUB_OUTPUT  
           echo "pr_head_sha=$pr_head_sha" | Out-File -Append -FilePath $env:GITHUB_OUTPUT  
           echo "pr_base_ref=$pr_base_ref" | Out-File -Append -FilePath $env:GITHUB_OUTPUT  
-          echo "pr_base_sha=$pr_base_sha" | Out-File -Append -FilePath $env:GITHUB_OUTPUT  
+          echo "pr_base_sha=$pr_base_sha" | Out-File -Append -FilePath $env:GITHUB
