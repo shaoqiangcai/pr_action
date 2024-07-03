@@ -23,7 +23,7 @@ jobs:
           $pr_head_sha = $pull_request.head.sha  
           $pr_base_ref = $pull_request.base.ref  
           $pr_base_sha = $pull_request.base.sha  
-          $pr_updated_at = [datetime]::Parse($pull_request.updated_at)
+          # $pr_updated_at = [datetime]::Parse($pull_request.updated_at)
           $last_update_date_str = "${{ env.last_update_date }}"  
           # if ($last_update_date_str) {  
           #     $last_update_date = [datetime]::Parse($last_update_date_str)  
